@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <title>Réservez votre vélo ! </title>
+        <link href="public/css/bulma.css" rel="stylesheet">
+        <link href="public/css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Réservez facilement votre vélo grace à Vel'Location, la solution de réservation de vélos libre-service de la métropole de Lyon">
+        <link rel="icon" type="image/png" href="public/pics/favicon.png">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+    </head>
+    <body>
+        <section class="hero is-info is-small">
+            <div class="hero-body">
+            <div class="container has-text-centered">
+                <img src="public/pics/logo.png" alt="logo" />
+            </div>
+            </div>
+        </section>
+        <div class="box cta">
+            <p class="has-text-centered">
+            <span class="tag is-primary">Location de vélos</span> Réservez facilement votre vélo grace à Vel'Location, la solution de réservation de vélos libre-service de la métropole de Lyon. 
+            </p>
+        </div>
+        <div class="container">
+            <div class="columns">
+                <div id="title-carousel" class="column is-12">
+                    <h3 class="title is-3">Comment réserver votre vélo ?</h3>
+                </div>
+            </div>
+        </div>
+        <div id="carousel" class="container">
+            <div id="container-carousel" class="columns">
+                <div id="img-carousel" class="slides">
+                    <li class="slide active">
+                        <img src="public/pics/slider1.jpg" alt="slider 1" />
+                    </li>
+                    <li class="slide">
+                        <img src="public/pics/slider2.jpg" alt="slider 3" />
+                    </li>
+                    <li class="slide">
+                        <img src="public/pics/slider3.jpg" alt="slider 3" />
+                    </li>
+                    <li class="slide">
+                        <img src="public/pics/slider4.jpg" alt="slider 4" />
+                    </li>
+                </div>  
+                <a id="prev" class="btn-slider" role="button" onclick="previousSlide()" ><i class="fas fa-angle-double-left fa-3x" aria-hidden="true"></i></a>
+                <a id="next" class="btn-slider" role="button" ><i class="fas fa-angle-double-right fa-3x" aria-hidden="true" onclick="nextSlide()"></i></a>
+            </div>
+        </div>
+        <div id="dot-line" class="container">
+            <div class="columns">
+                <div id="dot-align" class="column is-12">
+                    <i class="fas fa-pause-circle fa-2x"><a id="pause" class="btn-slider" role="button" onclick="stopAnimation()" ></a></i>
+                    <i class="fas fa-circle"></i>
+                    <i class="far fa-circle"></i>
+                    <i class="far fa-circle"></i>
+                    <i class="far fa-circle"></i>
+                    <i class="fas fa-play-circle fa-2x"><a id="play" class="btn-slider" role="button" onclick="playAnimation()" ></a></i>
+                </div>
+            </div>
+        </div>
+        <section class="section">
+            <div class="container">
+                <div id="leasing" class="column is-12">
+                    <h3 class="title is-3">Sélectionnez votre station</h3>
+                    <h3 class="subtitle is-3">Cliquez sur la station de vote choix, remplissez le formulaire et réservez !</h3>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-6">
+                        <div id="map"></div>
+                    </div>
+                    <div class="column is-6">
+                        <h5 class="title is-3">Détails de la station</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- <script src="js/ajax.js"></script> -->
+    <script src="js/map.js"></script>
+    <script src="https://unpkg.com/bulma-modal-fx/dist/js/modal-fx.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/slide.js"></script>
+    </body>
+</html>

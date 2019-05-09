@@ -1,0 +1,135 @@
+@font-face {
+    font-family: 'Segoe UI';
+    src: url(..fonts/segoe-ui-webfont.woff) format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.hero.is-info {
+    background: url(../pics/background.jpg) no-repeat center;
+    background-size: cover;
+
+}
+div#container-carousel.columns {
+    position: relative;
+}
+
+.slide.active {
+    display: block;
+}
+.slide {
+    display: none
+}
+
+div#carousel.container {
+
+    background-color: #FAFAFA;
+}
+.slides li {
+
+    height: auto;
+    margin: 0 10vw 0 10vw;
+}
+
+#slides {
+
+    list-style-type: none;
+}
+
+.slide {
+    display: none;
+
+}
+
+.active {
+    display: block;
+}
+
+#map {
+    height: 400px;
+}
+
+div#title-carousel.column.is-12 {
+    text-align: center;
+}
+
+.fa-circle {
+    margin: 0 10px 0 10px;
+}
+div.container.has-text-centered img {
+    width:200px;
+}
+
+#prev {
+    left: 10px;
+}
+
+#next {
+    right: 10px;
+}
+
+.btn-slider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+    color: red;
+    text-align: center;
+    opacity: .5;
+}
+
+div#dot-line.container {
+    height: 60px;
+}
+
+#dot-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div#dot-align.column.is-12, div#dot-pauseplay.column.is-12 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div#dotpp {
+    margin: 20px 0 20px 0;
+}
+
+.fas.fas.fa-pause-circle, .fas.fa-play-circle {
+    margin: 0 40px 0 40px;
+}
+.fas.fa-pause-circle.fa-2x:hover, .fas.fa-play-circle.fa-2x:hover {
+    color:red;
+}
+
+.fas.fa-pause-circle.fa-2x:visited, .fas.fa-play-circle.fa-2x:visited {
+    color:red;
+}
+
+#leasing {
+    text-align: center;
+}
+
+map{
+    height:400px;
+}
+@media only screen and (max-width: 768px) {
+
+
+    
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1023px) {
+     
+
+}
