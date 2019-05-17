@@ -1,6 +1,5 @@
 var slides = document.querySelectorAll('.slides .slide');
 var dots = document.querySelectorAll('#dot-align .fa-circle');
-console.log(dots.length);
 var currentSlide = 0;
 
 function stopAnimation() {
@@ -13,11 +12,13 @@ function playAnimation() {
 var animation = playAnimation()
 
 function nextSlide() {
+
     goToSlide(currentSlide+1);
     stopAnimation(animation);
 }
 
 function previousSlide() {
+
     goToSlide(currentSlide-1);
     stopAnimation(animation);
 }
