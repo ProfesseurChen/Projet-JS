@@ -1,44 +1,28 @@
-var slides = document.querySelectorAll('.slides .slide');
-var dots = document.querySelectorAll('#dot-align .fa-circle');
-var currentSlide = 0;
-
-function stopAnimation() {
-    clearTimeout(animation);
-}
-function playAnimation() {
-    setTimeout(nextSlide, 5000);
-}
-
-var animation = playAnimation()
-
-function nextSlide() {
-
-    goToSlide(currentSlide+1);
-    stopAnimation(animation);
-}
-
-function previousSlide() {
-
-    goToSlide(currentSlide-1);
-    stopAnimation(animation);
-}
-
-function goToSlide(n) {
-    
-    slides[currentSlide].className = 'slide';
-    dots[currentSlide].className = "far fa-circle";
-    currentSlide = (n+slides.length)%slides.length;
-    slides[currentSlide].className = 'slide active';
-    dots[currentSlide].className = "fas fa-circle";
-}
-
-document.addEventListener("keydown", function(e) {
-
-    clearInterval(animation);
-    if (e.which = 37) {
-        nextSlide();
-    } else if(e.which = 39) {
-        previousSlide();
+class SliderTest {
+    constructor() {
+        this.slides = document.querySelectorAll('.slides .slide');
+        this.dots = document.querySelectorAll('#dot-align .fa-circle');
+        this.currentSlide = 0;
     }
-    e.preventDefault();
-})
+
+    goToSlide(n) {
+        this.slides[this.currentSlide].className = 'slide';
+        this.dots[this.currentSlide].className = "far fa-circle";
+        this.currentSlide = (n+this.slides.length)%this.slides.length;
+        this.slides[this.currentSlide].className = 'slide active';
+        this.dots[this.currentSlide].className = "fas fa-circle";
+    }
+    nextSlide() {
+        this.goToSlide(this.currentSlide+1);   
+    }
+    
+    previousSlide() {
+        this.goToSlide(this.currentSlide-1);
+    }
+
+    animationSlide() {
+        setInterval(function(){
+            sliderElt.nextSlide()
+        }, 5000);
+    }
+}

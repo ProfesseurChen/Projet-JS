@@ -48,7 +48,7 @@ div#carousel.container {
 
 
 #map {
-    height: 400px;
+    height: 500px;
 }
 
 div#title-carousel.column.is-12 {
@@ -140,4 +140,20 @@ map{
 
 .open {
     color: #4a4a4a;
+}
+
+canvas {
+    border: 1px solid #000;
+}
+
+#bloc-signature {
+    display: none;
+}
+
+#signature-ok {
+    display: none;
+}
+
+#resa-block-session.hero.is-primary {
+    display: none;
 }
