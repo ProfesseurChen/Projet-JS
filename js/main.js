@@ -80,33 +80,58 @@ function initMap() {
 
 const formElt = document.querySelector('form');
 
-const recupArray = sessionStorage.getItem("objet");
-
-if(recupArray !== 0) {
-    console.log(recupArray);
-    const recup = JSON.parse(this.recupArray);
-    sessionElt.getMyStorage();  
-} else {
-    console.log('C\'est vide');
-}
-
 formElt.addEventListener('submit', function(e) {
     const maResa = {
         nom: this.elements.nom.value,
         prenom: this.elements.prenom.value,
         station: this.elements.station.value
     }
-    const sessionElt = new Session(maResa);
-    sessionElt.initStorage(maResa);
+    const jsonResa = JSON.stringify(maResa);
+    localStorage.setItem("reservation", jsonResa);
     e.preventDefault();
 })
 
+
+if(typeof localStorage!='undefined') {
+    if('reservation' in localStorage) {
+    
+      const testLocal = localStorage.getItem('reservation');
+      console.log(testLocal);
+    } else {
+        console.log('Vous n\'avez pas de réservation !');
+    }
+}
+/*
 const clearSession = document.querySelector('#clear-this-session.button.is-danger.is-inverted');
 clearSession.addEventListener('click', function() {
     sessionElt.endStorage();
-});
+}); 
+document.getElementById('timer').innerHTML = 20+ ":" + 00;
+startTimer();
+*/
 
+var interval = 1000 * 60 * 20; // 20 minutes
 
+function reset() {
+    localStorage.endTime = +new Date + interval;
+}
+
+if( ! localStorage.endTime ) {
+    reset();
+}
+
+setInterval( function() {
+    var remaining = localStorage.endTime - new Date;
+    var minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+    if( remaining >= 0 ) {
+        var sec =  (seconds>=10) ? seconds : "0" + seconds;
+        var min = (minutes>=10) ? minutes : "0" + minutes;
+        $('#timer').text( min + ' min  ' + sec + ' sec');
+    } else {
+        reset();
+    }
+}, 1000 );
 
 ///// AU CHARGEMENT /////
 

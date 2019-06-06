@@ -12,6 +12,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="description" content="Réservez facilement votre vélo grace à Vel'Location, la solution de réservation de vélos libre-service de la métropole de Lyon">
       <link rel="icon" type="image/png" href="public/pics/favicon.png">
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
       integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
       crossorigin=""/>
@@ -32,6 +33,7 @@
         <span class="tag is-primary">Location de vélos</span> Réservez facilement votre vélo grace à Vel'Location, la solution de réservation de vélos libre-service de la métropole de Lyon. 
       </p>
     </div>
+    <div>Time remaining: <span id="timer"></span></div>
     <div class="container">
       <div class="columns">
         <div id="title-carousel" class="column is-12">
@@ -158,17 +160,18 @@
       }, 0);
 
       canvas.addEventListener('mousemove', function(e) {
-          if(this.down) {
-            with(ctx) {
+        if(this.down) {
+          with(ctx) {
             ctx.beginPath();
             moveTo(this.X, this.Y);
             lineTo(e.pageX , e.pageY );
             ctx.lineWidth=1;
             stroke();
-            }
-            this.X = e.pageX ;
-            this.Y = e.pageY ;
           }
+
+          this.X = e.pageX ;
+          this.Y = e.pageY ;
+        }
       }, 0);
     </script>
   </body>

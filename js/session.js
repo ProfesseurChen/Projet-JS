@@ -1,6 +1,6 @@
-class Session {
-  construct(objet) {
-    this.dataObject = objet;
+/* class Session {
+  construct() {
+  
     thi.stationTitle = document.querySelector('#station-title.subtitle');
     this.stationNom = document.querySelector('#station-nom.subtitle');
     this.stationTimer = document.querySelector('#station-timer.subtitle');
@@ -8,8 +8,10 @@ class Session {
   }
 
   initStorage() {
-    const myResaObject = JSON.stringify(this.dataObject);
-    sessionStorage.setItem("objet", myResaObject);
+    
+    sessionStorage.setItem("nom", this.nom);
+    sessionStorage.setItem("prenom", this.prenom);
+    sessionStorage.setItem("station", this.station);
   }
 
   getMyStorage() {
@@ -22,5 +24,5 @@ class Session {
     this.stationTimer.style.display = "none";
     this.stationTitle.innerHTML = 'Votre réservation a été annulé ! Vous pouvez en refaire une autre en sélectionnant la station qui vous convient';
     this.sessionStorage.clear();
-  }
-}
+  } 
+} */
