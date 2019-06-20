@@ -20,9 +20,4 @@ class SliderTest {
         this.goToSlide(this.currentSlide-1);
     }
 
-    animationSlide() {
-        setInterval(function(){
-            sliderElt.nextSlide()
-        }, 5000);
-    }
-}
+} 

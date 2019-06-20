@@ -1,17 +1,16 @@
 ///// SLIDER //////
 
 const sliderElt = new SliderTest();
-const pauseButton = document.getElementById('pause');
+const playButton = document.getElementById('play');
+const pauseButton = document.querySelector('#pause.btn-slider');
 
-const intervalId = sliderElt.animationSlide();
-pauseButton.addEventListener('click', function() {
-    clearTimeout(intervalId);
-});
+
+let animation;
+
+animation = setInterval(function() {sliderElt.nextSlide()}, 5000);
 
 const nextButton = document.getElementById('next');
 const prevButton = document.getElementById('prev');
-const playButton = document.getElementById('play');
-
 
 nextButton.addEventListener('click', function() {
     sliderElt.nextSlide();
@@ -19,9 +18,14 @@ nextButton.addEventListener('click', function() {
 prevButton.addEventListener('click', function() {
     sliderElt.previousSlide();
 });
+
 playButton.addEventListener('click', function() {
-    sliderElt.playAnimation();
-});
+    setInterval(function() {animation = sliderElt.nextSlide()}, 5000);
+})
+pauseButton.addEventListener('click', function() {
+    clearInterval(animation);
+})
+
 
 document.addEventListener("keydown", function(e) {
     if (e.keyCode === 39) {
@@ -34,30 +38,35 @@ document.addEventListener("keydown", function(e) {
 
 ////// MAP ( bike.js pour le détail des stations) /////
 
-let markerClusters;
+let markerClusters, statusStation, iconRel;
 const buttonElt = document.querySelector(".button.is-link");
+
 function initMap() {
-    // var iconRel = 'http://localhost:8888/public/pics/'; 
+    
     const mymap = L.map('map').setView([45.756725, 4.839532], 12.6);
     markerClusters = L.markerClusterGroup();
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWF0ZmFsY29uIiwiYSI6ImNqdmdxcWYwdjAydzA0NHAwc29nNXVkbWcifQ.0iKn3sVfP7fC-bkr7_QsZQ', {
         minZoom: 0,
-        maxZoom: 25,
+        maxZoom: 20,
         id: 'mapbox.streets',
         accessToken: 'your.mapbox.access.token'
     }).addTo(mymap);
     ajaxGet("https://api.jcdecaux.com/vls/v1/stations?contract=lyon&apiKey=d98e6733449ff8f55e78cc226c94dea8aa699f7a", function getInfos(reponse) {
+
         const request = JSON.parse(reponse);
+
         request.forEach(function(n) {
-            const marker = L.marker([n.position.lat, n.position.lng]);
-            markerClusters.addLayer(marker); 
-            /* var myIcon = L.icon({
-                iconUrl: iconRel + "bike.png",
-                iconSize: [50, 50],
-                iconAnchor: [25, 50],
-                popupAnchor: [-3, -76],
-            }); */
-            let popUpContent;
+            
+            if (n.available_bikes > 1 && n.status === 'OPEN') {
+                iconRel = 'http://projectpallet.fr/p3/public/pics/bike-open.png';
+            } else if (n.available_bikes === 1 && n.status === 'OPEN') {
+                iconRel = 'http://projectpallet.fr/p3/public/pics/bike-one.png';
+            } else {
+                iconRel = 'http://projectpallet.fr/p3/public/pics/bike-none.png';
+            }
+            const mapIconElt = new MapIcon(iconRel,n.position.lat,n.position.lng,markerClusters);
+            const marker = mapIconElt.initIcon();
+
             const data = {
                 name: n.name.substring(7),
                 address: n.address,
@@ -65,8 +74,8 @@ function initMap() {
                 nbStands: n.available_bike_stands,
                 status: n.status
             }
+
             const mapElt = new Bike(data);
-            /* marker.bindPopup(popUpContent);   */    
             marker.addEventListener('click', function(e) {
                 document.getElementById('select-station').style.display = "none";
                 mapElt.getInfosBike();
@@ -76,64 +85,117 @@ function initMap() {
     mymap.addLayer(markerClusters);
 }
 
-//// LOCALSTORAGE   ////
+//// RESERVATION //////
 
-const formElt = document.querySelector('form');
+const reservationElt = document.getElementById('resa-block-session');
+const inputDisabledBooking = document.getElementById("button-sign");
+const inputDisabledSign = document.getElementById("input-booking");
 
-formElt.addEventListener('submit', function(e) {
-    const maResa = {
-        nom: this.elements.nom.value,
-        prenom: this.elements.prenom.value,
-        station: this.elements.station.value
-    }
-    const jsonResa = JSON.stringify(maResa);
-    localStorage.setItem("reservation", jsonResa);
+inputDisabledBooking.disabled = true;
+inputDisabledSign.disabled = true;
+
+function initReservation(nom,prenom,station) {
+
+    reservationElt.style.display = "block";
+    document.getElementById('station-message').innerHTML = 'Bravo ! Votre vélo vous attend station: ' + station + ' au nom de ' + prenom + ' ' + nom;
+}
+
+//// RESERVATION SOUMISSION FORMULAIRE ////
+let getNom, getPrenom, getStation, getTime, distance, x, timerElt, canvasElt, canvasBlc;
+
+
+
+function timer(getTime,getNom,getPrenom,getStation) {
+
+    timerElt = new Timer(getTime);
+    initReservation(getNom,getPrenom,getStation);
+
+    x = setInterval(function() {
+
+        timerElt.initTimer();
+        const distanceElt =  timerElt.initTimer();
+
+        if (distanceElt < 0) {
+
+            clearInterval(x);
+            timerElt.resetTimer();
+
+        }
+    }, 1000);
+}
+
+const getSign = document.getElementById('button-sign');
+const sign = document.getElementById('go-to-sign');
+canvasElt = new Signature();
+getSign.addEventListener('click', function (e) {
+
+    
+    canvasElt.initCanvas();
+    sign.style.display = "block";
+    this.style.display = "none";
     e.preventDefault();
 })
 
+const formElt = document.querySelector('form');
+formElt.addEventListener('submit', function(e) {
+   
+    getNom = this.elements.nom.value;
+    getPrenom = this.elements.prenom.value;
+    getStation = this.elements.station.value;
 
-if(typeof localStorage!='undefined') {
-    if('reservation' in localStorage) {
+    localStorage.setItem("nom", getNom);
+    localStorage.setItem("prenom", getPrenom);
+    sessionStorage.setItem("station", getStation);
+    getTime = new Date().getTime() + (1000 * 60 * 20);
+    sessionStorage.setItem("time", getTime);
+
+    canvasElt.clearCanvas();
+    sign.style.display = "none";
+    getSign.style.display = "block";
+    getSign.disabled = true;
+    document.getElementById('input-booking').disabled = true;
+
     
-      const testLocal = localStorage.getItem('reservation');
-      console.log(testLocal);
-    } else {
-        console.log('Vous n\'avez pas de réservation !');
-    }
-}
-/*
-const clearSession = document.querySelector('#clear-this-session.button.is-danger.is-inverted');
-clearSession.addEventListener('click', function() {
-    sessionElt.endStorage();
-}); 
-document.getElementById('timer').innerHTML = 20+ ":" + 00;
-startTimer();
-*/
+    timer(getTime,getNom,getPrenom,getStation);
 
-var interval = 1000 * 60 * 20; // 20 minutes
-
-function reset() {
-    localStorage.endTime = +new Date + interval;
-}
-
-if( ! localStorage.endTime ) {
-    reset();
-}
-
-setInterval( function() {
-    var remaining = localStorage.endTime - new Date;
-    var minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-    if( remaining >= 0 ) {
-        var sec =  (seconds>=10) ? seconds : "0" + seconds;
-        var min = (minutes>=10) ? minutes : "0" + minutes;
-        $('#timer').text( min + ' min  ' + sec + ' sec');
-    } else {
-        reset();
-    }
-}, 1000 );
+    clearButton.addEventListener('click', function() {
+        
+        timerElt.resetTimer();
+        clearInterval(x);
+    })
+    e.preventDefault();
+})
 
 ///// AU CHARGEMENT /////
+
+const clearButton = document.querySelector('#clear-this-session');
+const inputName = document.getElementById('input-name');
+const inputSurname = document.getElementById('input-surname');
+
+if(typeof localStorage !== 'undefined') {
+    if('nom' in localStorage && 'prenom' in localStorage) {
+
+        // Si le visiteur a déjà réservé
+        getNom = localStorage.getItem('nom');
+        getPrenom = localStorage.getItem('prenom');
+
+        if('station' in sessionStorage && 'time' in sessionStorage) {
+
+            // Si le visiteur a déjà réservé et que le navigateur n'a pas été fermé
+
+            getTime = sessionStorage.getItem('time');
+            getStation = sessionStorage.getItem('station');
+
+            timer(getTime,getNom,getPrenom,getStation);
+            clearButton.addEventListener('click', function() {
+                timerElt.resetTimer();
+                clearInterval(x);
+            })
+        }   
+        inputName.value = getNom;
+        inputSurname.value = getPrenom;  
+    }
+}
 
 window.onload = function() {
     initMap();

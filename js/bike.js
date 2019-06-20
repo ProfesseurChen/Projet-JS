@@ -9,21 +9,24 @@ class Bike {
     this.availabilityBikeElt = document.getElementById('bike-station');
     this.availabilityStandElt = document.getElementById('stand-station');
     this.canvasElt = document.getElementById("bloc-signature");
-    this.buttonElt = document.querySelector(".button.is-success");
-    this.stationElt = document.querySelector('input#name-station');
+    this.buttonElt = document.getElementById("button-sign");
+    this.stationElt = document.querySelector('input#input-station');
+    this.signBlockElt = document.getElementById('button-sign');
+    this.signElt = document.getElementById('go-to-sign');
     this.data = data;
     }
 
     getInfosBike() {
-        this.nameElt.innerHTML = this.data.name;
+        this.nameElt.innerHTML = "Station: " + this.data.name;
         this.stationElt.value = this.data.name;
-        if (this.data.status == 'CLOSED' ) { 
+        if (this.data.status == 'CLOSED' ) {
+            this.removeSign(); 
             this.statusElt.className = 'closed';
-            this.statusElt.innerHTML = 'Station fermée !';
+            this.statusElt.innerHTML = '<span id="station-closed">Station fermée !</span>';
             this.buttonElt.disabled = true;
         } else {
             this.statusElt.className = 'open';
-            this.statusElt.innerHTML = 'Station ouverte.';
+            this.statusElt.innerHTML = '<span id="station-open"> Station ouverte.</span>';
         }
         if(this.data.address == "") {
             this.addressElt.innerHTML = '';
@@ -42,19 +45,26 @@ class Bike {
             }
         }
         if(this.data.nbBikes == 0) {
+            this.removeSign();
             this.availabilityBikeElt.className = 'closed';
-            this.availabilityBikeElt.innerHTML= 'Il n\'y a plus de vélos disponibles. Veuillez réessayez ou choisir une autre station.';
+            this.availabilityBikeElt.innerHTML= '<span id="station-closed">Il n\'y a plus de vélos disponibles.</span> Veuillez réessayez ou choisir une autre station.';
             this.buttonElt.disabled = true;
         } else {
             this.availabilityBikeElt.className = 'open';
             this.stationElt.value = this.data.name;
+            this.buttonElt.disabled = false;
             if(this.data.nbBikes == 1) {
                 this.availabilityBikeElt.innerHTML = 'Il y a encore <strong>' + this.data.nbBikes + '</strong> vélo de disponible !';
             } else {
                 this.availabilityBikeElt.innerHTML = 'Il y a <strong>' + this.data.nbBikes + '</strong> vélos de disponibles.';
             }
-            this.buttonElt.className = 'button is-success activeButton ';
             this.buttonElt.disabled = false;
         }
+    }
+
+    removeSign() {
+        this.signElt.style.display = "none";
+        this.signBlockElt.style.display = "block";
+        this.signBlockElt.disabled = true;
     }
 }

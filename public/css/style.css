@@ -1,18 +1,39 @@
-@font-face {
-    font-family: 'Segoe UI';
-    src: url(../fonts/segoe-ui-webfont.woff) format('woff');
-    font-weight: normal;
-    font-style: normal;
+
+
+label {
+    color: #fff;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
+    background: #76B5C1;
+background: -webkit-linear-gradient(bottom right, #76B5C1, #A42931);
+background: -moz-linear-gradient(bottom right, #76B5C1, #A42931);
+background: linear-gradient(to top left, #76B5C1, #A42931);
+    color: #fff;
 }
 
-.hero.is-info {
-    background: url(../pics/background.jpg) no-repeat center;
-    background-size: cover;
+h1 {
+    margin: 100px 0 100px 0;
+}
+#station-message, #station-countdown {
+    margin: 10px 0 10px 0;
+}
+h3 {
+    font-family: 'Montserrat';
+    font-weight: bold;
+    margin: 0 0 50px 0;
+}
 
+h4 {
+    margin-bottom: 20px;
+}
+a.navbar-item {
+    color: #fff;
+    font-weight: bold;
+}
+.title.is-1 {
+    font-family: 'Pacifico';
 }
 div#container-carousel.columns {
     position: relative;
@@ -35,20 +56,31 @@ div#container-carousel.columns {
     position: relative;
 }
 
+#title.container {
+    margin: 20px 0 20px 0;
+}
+
 div#carousel.container {
 
-    background-color: #FAFAFA;
+
+    display: flex;
+    justify-content: center; 
 }
+
+
 .slides li {
 
     height: auto;
     margin: 0 10vw 0 10vw;
 }
 
-
+img#logo-img {
+    width: 400px;
+}
 
 #map {
-    height: 500px;
+    height: 600px;
+    margin-bottom: 50px; 
 }
 
 div#title-carousel.column.is-12 {
@@ -77,10 +109,9 @@ div.container.has-text-centered img {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 10%;
-    color: red;
+    width: 5%;
+    color: white;
     text-align: center;
-    opacity: .5;
 }
 
 div#dot-line.container {
@@ -110,18 +141,41 @@ div#dotpp {
     color:red;
 }
 
-.fas.fa-pause-circle.fa-2x:visited, .fas.fa-play-circle.fa-2x:visited {
-    color:red;
+.fas.fa-play-circle.fa-2x:hover {
+    color:green;
 }
 
 #leasing {
-    text-align: center;
+    text-align: center;   
 }
 
-map{
-    height:400px;
+#station-open {
+    background-color: #23d160;
+    border-color: transparent;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: none;
+    display: inline-flex;
+    font-size: 1rem;
+    height: 2.25em;
+    align-items: center;
+    border: 1px solid transparent;
+    padding: 5px 5px 5px 5px;
 }
 
+#station-closed {
+    background-color: red;
+    border-color: transparent;
+    color: #fff;
+    border-radius: 4px;
+    box-shadow: none;
+    display: inline-flex;
+    font-size: 1rem;
+    height: 2.25em;
+    align-items: center;
+    border: 1px solid transparent;
+    padding: 5px 5px 5px 5px;
+}
 
 @media only screen and (max-width: 768px) {
 
@@ -134,17 +188,6 @@ map{
 
 }
 
-.closed {
-    color: red;
-}
-
-.open {
-    color: #4a4a4a;
-}
-
-canvas {
-    border: 1px solid #000;
-}
 
 #bloc-signature {
     display: none;
@@ -154,6 +197,70 @@ canvas {
     display: none;
 }
 
-#resa-block-session.hero.is-primary {
+.column.is-6 {
+    min-height: 400px;
+}
+
+#map {
+    border-radius: 15px;
+    border: 2px solid #fff;
+}
+.pres-map {
+    padding: 15px 50px 15px 50px;
+    margin: 0 15px 0 15px;
+}
+
+div.field {
+    margin: 20px 0 40px 0;
+    text-align: center;
+}
+
+#go-to-sign {
+    display: none;
+    text-align: center;
+    margin: 45px 0 45px 0;
+}
+
+.pres-block {
+    padding: 15px 15px 15px 15px;
+    margin: 0 15px 0 15px;
+    min-height: 780px;
+    border: 2px solid #fff;
+    border-radius: 15px;
+}
+
+#elts-booking {
+    margin-top: 20px;
+}
+
+ul#elts-booking li {
+    margin: 5px 0 5px 0;
+}
+
+.title.is-3 {
+    color: white;
+}
+
+.navbar {
+    background-color: transparent;
+}
+
+#resa-line {
+    padding: 15px 15px 15px 15px;
+    margin-bottom: 40px;
+}
+
+#resa-block-session {
+    background-color: #292525;
+    border-radius: 15px;
+}
+
+section#choice.section {
+    margin-top: 50px;
+    padding-top: 50px;
+    min-height: 100vh;
+}
+
+#resa-block-session {
     display: none;
 }

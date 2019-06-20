@@ -1,50 +1,77 @@
-/*var canvasElt;
+class Signature {
+    constructor() {
+        this.canvas = document.getElementById("sig-canvas");
+        this.ctx = this.canvas.getContext('2d');
+        this.drawState = false;
+        this.preX = 0;
+        this.preY = 0;
+        this.curX = 0;
+        this.curY = 0;
+    }
 
-function getCanvas() {
-    var buttonEltCanvas = document.getElementById('all-ok');
-    var buttonSubmit = document.querySelector('#signature-ok.button.is-link');
-    buttonEltCanvas.addEventListener("click", function(k) {
-        canvasElt = document.getElementById("bloc-signature");
-        canvasElt.style.display = 'block';
+    initCanvas() {
+
+        this.canvas.addEventListener("mousemove", this.canvasEvent, false);
+        this.canvas.addEventListener("mousedown", this.canvasEvent, false);
+        this.canvas.addEventListener("mouseup", this.canvasEvent, false);
+        this.canvas.addEventListener("mouseout", this.canvasEvent, false);
+        this.canvas.addEventListener("touchmove", this.canvasEvent, false);
+        this.canvas.addEventListener("touchstart", this.canvasEvent, false);
+        this.canvas.addEventListener("touchend", this.canvasEvent, false);
+    }
+
+    canvasEvent(e) {
         
-        /*var inputEltValue = document.querySelector('.input');
-        inputEltValue.addEventListener('input', function(elt) {
-            var valueElt = elt.values;
-            if (!valueElt) {
-                buttonSubmit.disabled = false;
-            }
-        }) 
-    })
-}
+        const canvasObj = document.getElementById("sig-canvas");
+        const ctx = canvasObj.getContext("2d");
+        ctx.strokeStyle = "#343434";
+        ctx.lineWidth = 3;
+        
+        if (e.type === 'mousedown' || e.type === 'touchstart') {
 
-*/
-function getCanvas() {
-    var canvas= document.getElementById('canvas');
-
-    var ctx = canvas.getContext('2d');
-
-    canvas.addEventListener('mousedown', function(e) {
-        this.down = true;   
-        this.X = e.pageX ;
-        this.Y = e.pageY ;
-    }, 0);
-
-    canvas.addEventListener('mouseup', function() {
-        this.down = false;          
-    }, 0);
-
-    canvas.addEventListener('mousemove', function(e) {
-        if(this.down) {
-            with(ctx) {
-            ctx.beginPath();
-            moveTo(this.X, this.Y);
-            lineTo(e.pageX , e.pageY );
-            ctx.lineWidth=1;
-            stroke();
-            }
-            this.X = e.pageX ;
-            this.Y = e.pageY ;
-            
+            this.drawState = true;      
+            this.curX = e.offsetX;
+            this.curY = e.offsetY; 
+            ctx.beginPath();              
+            ctx.moveTo(this.curX, this.curY);
         }
-    }, 0);
+        
+        if (e.type === 'mousemove' || e.type === 'touchmove') {
+
+            if (this.drawState) {
+                if(e.type === 'touchmove') {
+                    e.preventDefault();
+                    
+                    if (e.touches.length === 1) {
+                        var posCanvasClient = canvasObj.getBoundingClientRect();
+                        var touch = e.touches[0];
+                        this.curX = touch.clientX - posCanvasClient.left;
+                        this.curY = touch.clientY - posCanvasClient.top;
+                    }
+                } else {
+                    this.curX = e.offsetX;
+                    this.curY = e.offsetY; 
+                }            
+            ctx.lineTo(this.curX, this.curY);
+            ctx.stroke(); 
+            }
+        }
+        if (e.type === 'touchend' || e.type === 'mouseup') {
+        
+            this.drawState = false;
+            document.getElementById('input-booking').disabled = false;      ctx.closePath();
+        }
+
+        if(e.type === 'mouseout') {
+            this.drawState = false;
+            ctx.closePath();
+        }
+    }
+    
+    clearCanvas() {
+        const canvasW = this.canvas.width;
+        const canvasH = this.canvas.clientHeight;
+
+        this.ctx.clearRect(0, 0, canvasW, canvasH);
+    }
 }
