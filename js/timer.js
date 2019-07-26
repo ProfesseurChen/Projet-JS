@@ -1,4 +1,5 @@
 class Timer {
+    
     constructor(countDownDate) {
         this.countDownDate = countDownDate;
         this.stationMessage = document.getElementById('station-message');
@@ -6,7 +7,7 @@ class Timer {
         this.buttonClear = document.getElementById('clear-this-session'); 
     }
 
-    initTimer() {
+    initTimer = () => {
         const now = new Date().getTime();
         const distance = this.countDownDate - now;
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -17,12 +18,12 @@ class Timer {
         return distance;       
     }
 
-    doneTimer() {
+    doneTimer = () => {
         this.stationMessage.innerHTML = 'Réservation annulée !'
         this.timerCount.innerHTML = 'Le temps a expiré ! Votre réservation a été annulée. Veuillez en retenter une autre.';
     }
 
-    resetTimer() {
+    resetTimer = () => {
         sessionStorage.removeItem('time');
         sessionStorage.removeItem('station');
         this.buttonClear.style.display = "none";

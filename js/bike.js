@@ -1,7 +1,7 @@
 // Récupération des informations des stations et gestion des évènements de disponibilités
-
 class Bike {
-    constructor(data) {
+
+    constructor(data,iconRel,lat,long,markerClusters) {
     this.containerBooking = document.getElementById('elts-booking');
     this.nameElt = document.getElementById('name-station');
     this.addressElt = document.getElementById('address-station');
@@ -14,9 +14,13 @@ class Bike {
     this.signBlockElt = document.getElementById('button-sign');
     this.signElt = document.getElementById('go-to-sign');
     this.data = data;
+    this.iconRel = iconRel;
+    this.lat = lat;
+    this.long = long;
+    this.cluster = markerClusters;
     }
 
-    getInfosBike() {
+    getInfosBike = () => {
         this.nameElt.innerHTML = "Station: " + this.data.name;
         this.stationElt.value = this.data.name;
         if (this.data.status == 'CLOSED' ) {
@@ -62,9 +66,22 @@ class Bike {
         }
     }
 
-    removeSign() {
+    removeSign = () => {
         this.signElt.style.display = "none";
         this.signBlockElt.style.display = "block";
         this.signBlockElt.disabled = true;
+    }
+
+    initIcon = () => {
+
+        const iconElt = L.icon({
+            iconUrl: this.iconRel,
+            iconSize: [40, 40],
+            iconAnchor: [25, 50],
+			popupAnchor: [-3, -76],
+        });
+        const marker = L.marker([this.lat, this.long], {icon: iconElt});
+        this.cluster.addLayer(marker);
+        return marker;
     }
 }

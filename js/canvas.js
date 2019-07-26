@@ -2,14 +2,14 @@ class Signature {
     constructor() {
         this.canvas = document.getElementById("sig-canvas");
         this.ctx = this.canvas.getContext('2d');
-        this.drawState = false;
+        this.isEnabled = false;
         this.preX = 0;
         this.preY = 0;
         this.curX = 0;
         this.curY = 0;
     }
 
-    initCanvas() {
+    initCanvas = () => {
 
         this.canvas.addEventListener("mousemove", this.canvasEvent, false);
         this.canvas.addEventListener("mousedown", this.canvasEvent, false);
@@ -20,31 +20,29 @@ class Signature {
         this.canvas.addEventListener("touchend", this.canvasEvent, false);
     }
 
-    canvasEvent(e) {
-        
-        const canvasObj = document.getElementById("sig-canvas");
-        const ctx = canvasObj.getContext("2d");
-        ctx.strokeStyle = "#343434";
-        ctx.lineWidth = 3;
+    canvasEvent = e => {
+
+        this.ctx.strokeStyle = "#343434";
+        this.ctx.lineWidth = 3;
         
         if (e.type === 'mousedown' || e.type === 'touchstart') {
 
-            this.drawState = true;      
+            this.isEnabled = true;      
             this.curX = e.offsetX;
             this.curY = e.offsetY; 
-            ctx.beginPath();              
-            ctx.moveTo(this.curX, this.curY);
+            this.ctx.beginPath();              
+            this.ctx.moveTo(this.curX, this.curY);
         }
         
         if (e.type === 'mousemove' || e.type === 'touchmove') {
 
-            if (this.drawState) {
+            if (this.isEnabled) {
                 if(e.type === 'touchmove') {
                     e.preventDefault();
                     
                     if (e.touches.length === 1) {
-                        var posCanvasClient = canvasObj.getBoundingClientRect();
-                        var touch = e.touches[0];
+                        const posCanvasClient = this.canvas.getBoundingClientRect();
+                        const touch = e.touches[0];
                         this.curX = touch.clientX - posCanvasClient.left;
                         this.curY = touch.clientY - posCanvasClient.top;
                     }
@@ -52,23 +50,24 @@ class Signature {
                     this.curX = e.offsetX;
                     this.curY = e.offsetY; 
                 }            
-            ctx.lineTo(this.curX, this.curY);
-            ctx.stroke(); 
+            this.ctx.lineTo(this.curX, this.curY);
+            this.ctx.stroke(); 
             }
         }
         if (e.type === 'touchend' || e.type === 'mouseup') {
         
-            this.drawState = false;
-            document.getElementById('input-booking').disabled = false;      ctx.closePath();
+            this.isEnabled = false;
+            document.getElementById('input-booking').disabled = false;                          
+            this.ctx.closePath();
         }
 
         if(e.type === 'mouseout') {
-            this.drawState = false;
-            ctx.closePath();
+            this.isEnabled = false;
+            this.ctx.closePath();
         }
     }
     
-    clearCanvas() {
+    clearCanvas = () => {
         const canvasW = this.canvas.width;
         const canvasH = this.canvas.clientHeight;
 

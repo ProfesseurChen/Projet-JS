@@ -1,4 +1,4 @@
-///// SLIDER //////
+//////////////////  SLIDER  ////////////////
 
 const sliderElt = new SliderTest();
 const playButton = document.getElementById('play');
@@ -7,10 +7,16 @@ const pauseButton = document.querySelector('#pause.btn-slider');
 
 let animation;
 
+//// INITIALISATION AUTOMATIQUE DU SLIDER ////
+
 animation = setInterval(function() {sliderElt.nextSlide()}, 5000);
+
+//// EVENTS BOUTONS ///
+
 
 const nextButton = document.getElementById('next');
 const prevButton = document.getElementById('prev');
+
 
 nextButton.addEventListener('click', function() {
     sliderElt.nextSlide();
@@ -26,7 +32,7 @@ pauseButton.addEventListener('click', function() {
     clearInterval(animation);
 })
 
-
+//// KEY EVENTS ///
 document.addEventListener("keydown", function(e) {
     if (e.keyCode === 39) {
         sliderElt.nextSlide();
@@ -55,6 +61,8 @@ function initMap() {
 
         const request = JSON.parse(reponse);
 
+        ///// POUR CHAQUE STATION, ON RECUPERE LES INFOS //////
+
         request.forEach(function(n) {
             
             if (n.available_bikes > 1 && n.status === 'OPEN') {
@@ -64,8 +72,8 @@ function initMap() {
             } else {
                 iconRel = 'http://projectpallet.fr/p3/public/pics/bike-none.png';
             }
-            const mapIconElt = new MapIcon(iconRel,n.position.lat,n.position.lng,markerClusters);
-            const marker = mapIconElt.initIcon();
+
+            /// TABLEAU DES STATIONS ///
 
             const data = {
                 name: n.name.substring(7),
@@ -75,8 +83,12 @@ function initMap() {
                 status: n.status
             }
 
-            const mapElt = new Bike(data);
-            marker.addEventListener('click', function(e) {
+            //// GESTION DES STATIONS ////
+
+            const mapElt = new Bike(data,iconRel,n.position.lat,n.position.lng,markerClusters);
+            const mapIconElt = mapElt.initIcon();
+
+            mapIconElt.addEventListener('click', function(e) {
                 document.getElementById('select-station').style.display = "none";
                 mapElt.getInfosBike();
             })
@@ -85,24 +97,15 @@ function initMap() {
     mymap.addLayer(markerClusters);
 }
 
-//// RESERVATION //////
+////////////// RESERVATION /////////////
 
+let getNom, getPrenom, getStation, getTime, distance, x, timerElt, canvasElt, canvasBlc;
 const reservationElt = document.getElementById('resa-block-session');
 const inputDisabledBooking = document.getElementById("button-sign");
 const inputDisabledSign = document.getElementById("input-booking");
 
 inputDisabledBooking.disabled = true;
 inputDisabledSign.disabled = true;
-
-function initReservation(nom,prenom,station) {
-
-    reservationElt.style.display = "block";
-    document.getElementById('station-message').innerHTML = 'Bravo ! Votre vélo vous attend station: ' + station + ' au nom de ' + prenom + ' ' + nom;
-}
-
-//// RESERVATION SOUMISSION FORMULAIRE ////
-let getNom, getPrenom, getStation, getTime, distance, x, timerElt, canvasElt, canvasBlc;
-
 
 
 function timer(getTime,getNom,getPrenom,getStation) {
@@ -119,23 +122,25 @@ function timer(getTime,getNom,getPrenom,getStation) {
 
             clearInterval(x);
             timerElt.resetTimer();
-
         }
     }, 1000);
 }
+
+/// APPARITION DE LA SIGNATURE ///
 
 const getSign = document.getElementById('button-sign');
 const sign = document.getElementById('go-to-sign');
 canvasElt = new Signature();
 getSign.addEventListener('click', function (e) {
 
-    
     canvasElt.initCanvas();
     sign.style.display = "block";
     this.style.display = "none";
     e.preventDefault();
 })
 
+
+/// ON SUBMIT, ON UTILISE WEBSTORAGE ET ON INITIALISE LA RESERVATION ///
 const formElt = document.querySelector('form');
 formElt.addEventListener('submit', function(e) {
    
@@ -166,7 +171,16 @@ formElt.addEventListener('submit', function(e) {
     e.preventDefault();
 })
 
-///// AU CHARGEMENT /////
+//// SI ON VALIDE /////
+
+function initReservation(nom,prenom,station) {
+
+    reservationElt.style.display = "block";
+    document.getElementById('station-message').innerHTML = 'Bravo ! Votre vélo vous attend station: ' + station + ' au nom de ' + prenom + ' ' + nom;
+}
+
+
+///// AU CHARGEMENT ON VERIFIE SI LE VISITEUR A DEJA FAIT UNE RESERVATION /////
 
 const clearButton = document.querySelector('#clear-this-session');
 const inputName = document.getElementById('input-name');
